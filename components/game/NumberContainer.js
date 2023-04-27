@@ -8,7 +8,7 @@ function NumberContainer({ children }) {
     </View>
   );
 }
-
+export default NumberContainer;
 const styles = StyleSheet.create({
   container: {
     borderWidth: 4,

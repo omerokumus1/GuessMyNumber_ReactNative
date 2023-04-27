@@ -5,7 +5,7 @@ function Title({ children }) {
   return <Text style={styles.title}>{children}</Text>;
 }
 
-export default StyledTitle;
+export default Title;
 
 const styles = StyleSheet.create({
   title: {
