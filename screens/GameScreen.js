@@ -1,6 +1,9 @@
 import { Alert, StyleSheet, Text, View } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import Title from '../components/ui/Title';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NumberContainer from '../components/game/NumberContainer';
 import PrimaryButton from '../components/ui/PrimaryButton';
 
@@ -19,11 +22,19 @@ const initialGuess = generateRandomBetween(min, max, -1);
 function GameScreen({ userNumber, onGameOver }) {
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
-  if (userNumber === currentGuess) {
-    Alert.alert('Got you!', 'I found the number.', [
-      { text: 'Well done.', style: 'cancel', onPress: onGameOver },
-    ]);
-  }
+  //   if (userNumber === currentGuess) {
+  //     Alert.alert('Got you!', 'I found the number.', [
+  //       { text: 'Well done.', style: 'cancel', onPress: onGameOver },
+  //     ]);
+  //   }
+
+  useEffect(() => {
+    if (currentGuess === userNumber) {
+      Alert.alert('Got you!', 'I found the number.', [
+        { text: 'Well done.', style: 'cancel', onPress: onGameOver },
+      ]);
+    }
+  }, [currentGuess, userNumber, onGameOver]);
 
   function guessHigher() {
     if (userNumber > currentGuess) {
@@ -53,8 +64,12 @@ function GameScreen({ userNumber, onGameOver }) {
       <View>
         <Text>Higher or Lower?</Text>
         <View>
-          <PrimaryButton onPress={guessHigher}>+</PrimaryButton>
-          <PrimaryButton onPress={guessLower}>-</PrimaryButton>
+          <PrimaryButton onPress={guessHigher}>
+            <Ionicons name="md-add" size={24} color={'white'} />
+          </PrimaryButton>
+          <PrimaryButton onPress={guessLower}>
+            <Ionicons name="md-remove" size={24} color={'white'} />
+          </PrimaryButton>
         </View>
       </View>
     </View>
