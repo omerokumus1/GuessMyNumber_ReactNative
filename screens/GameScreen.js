@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -6,6 +6,8 @@ import Title from '../components/ui/Title';
 import { useEffect, useState } from 'react';
 import NumberContainer from '../components/game/NumberContainer';
 import PrimaryButton from '../components/ui/PrimaryButton';
+import Card from '../components/ui/Card';
+import InstructionText from '../components/ui/InstructionText';
 
 function generateRandomBetween(min, max, exclude) {
   let rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -61,17 +63,21 @@ function GameScreen({ userNumber, onGameOver }) {
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <View>
-        <Text>Higher or Lower?</Text>
-        <View>
-          <PrimaryButton onPress={guessHigher}>
-            <Ionicons name="md-add" size={24} color={'white'} />
-          </PrimaryButton>
-          <PrimaryButton onPress={guessLower}>
-            <Ionicons name="md-remove" size={24} color={'white'} />
-          </PrimaryButton>
+      <Card>
+        <InstructionText>Higher or Lower?</InstructionText>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonsContainer}>
+            <PrimaryButton onPress={guessHigher}>
+              <Ionicons name="md-add" size={24} color={'white'} />
+            </PrimaryButton>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <PrimaryButton onPress={guessLower}>
+              <Ionicons name="md-remove" size={24} color={'white'} />
+            </PrimaryButton>
+          </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 }
@@ -82,5 +88,13 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24,
+  },
+  buttonsContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
   },
 });
