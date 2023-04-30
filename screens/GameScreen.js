@@ -64,14 +64,16 @@ function GameScreen({ userNumber, onGameOver }) {
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
-        <InstructionText>Higher or Lower?</InstructionText>
+        <InstructionText style={{ marginBottom: 24 }}>
+          Higher or Lower?
+        </InstructionText>
         <View style={styles.buttonsContainer}>
-          <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
             <PrimaryButton onPress={guessHigher}>
               <Ionicons name="md-add" size={24} color={'white'} />
             </PrimaryButton>
           </View>
-          <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
             <PrimaryButton onPress={guessLower}>
               <Ionicons name="md-remove" size={24} color={'white'} />
             </PrimaryButton>
