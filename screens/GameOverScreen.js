@@ -3,7 +3,7 @@ import Title from '../components/ui/Title';
 import Colors from '../constants/Colors';
 import PrimaryButton from '../components/ui/PrimaryButton';
 
-function GameOverScreen() {
+function GameOverScreen({ pickedNumber, guessCount, startNewGameHandler }) {
   return (
     <View style={styles.rootContainer}>
       <Title>Game Over</Title>
@@ -14,10 +14,13 @@ function GameOverScreen() {
         />
       </View>
       <Text style={styles.summaryText}>
-        Your computer took <Text style={styles.highlight}>X</Text> shots to
-        guess the number <Text style={styles.highlight}>Y</Text>
+        Your computer took <Text style={styles.highlight}>{guessCount}</Text>{' '}
+        shots to guess the number{' '}
+        <Text style={styles.highlight}>{pickedNumber}</Text>
       </Text>
-      <PrimaryButton>Start New Game</PrimaryButton>
+      <PrimaryButton onPress={startNewGameHandler}>
+        Start New Game
+      </PrimaryButton>
     </View>
   );
 }
