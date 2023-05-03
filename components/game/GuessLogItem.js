@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import Colors from '../../constants/Colors';
 
 function GuessLogItem({ roundNumber, guess }) {
-  console.log('GuessLogItem rendered');
   return (
     <View style={styles.listItem}>
       <Text style={styles.itemText}>#{roundNumber}</Text>

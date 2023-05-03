@@ -16,7 +16,6 @@ export default function App() {
   const [pickedNumber, setPickedNumber] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
   const [guessCount, setGuessCount] = useState(0);
-  console.log('App rendered');
 
   const [fontsLoaded] = useFonts({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -32,7 +31,6 @@ export default function App() {
   }
 
   function gameOverHandler(guessCount) {
-    console.log('gameOverHandler');
     setIsGameOver(true);
     setGuessCount(guessCount);
   }
