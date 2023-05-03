@@ -40,7 +40,7 @@ export default function App() {
   function startNewGameHandler() {
     setPickedNumber(null);
     setGuessCount(0);
-    // setIsGameOver(false); // may be problematic
+    setIsGameOver(false); // may be problematic
   }
 
   let screen = null;
