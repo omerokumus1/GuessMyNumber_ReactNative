@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,6 +8,7 @@ import NumberContainer from '../components/game/NumberContainer';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Card from '../components/ui/Card';
 import InstructionText from '../components/ui/InstructionText';
+import GuessLogItem from '../components/game/GuessLogItem';
 
 function generateRandomBetween(min, max, exclude) {
   let rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -23,6 +24,8 @@ let max = 100;
 const initialGuess = generateRandomBetween(min, max, -1);
 function GameScreen({ userNumber, onGameOver }) {
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [guessRounds, setGuessRounds] = useState([initialGuess]);
+  const guessCount = guessRounds.length;
 
   //   if (userNumber === currentGuess) {
   //     Alert.alert('Got you!', 'I found the number.', [
@@ -30,33 +33,43 @@ function GameScreen({ userNumber, onGameOver }) {
   //     ]);
   //   }
 
+  function gameOverHandler() {
+    onGameOver(guessCount);
+  }
+
   useEffect(() => {
     if (currentGuess === userNumber) {
       Alert.alert('Got you!', 'I found the number.', [
-        { text: 'Well done.', style: 'cancel', onPress: onGameOver },
+        { text: 'Well done.', style: 'cancel', onPress: gameOverHandler },
       ]);
     }
-  }, [currentGuess, userNumber, onGameOver]);
+  }, [currentGuess, userNumber, gameOverHandler]);
 
   function guessHigher() {
     if (userNumber > currentGuess) {
       min = currentGuess;
-      setCurrentGuess(generateRandomBetween(min, max, currentGuess));
+      const guess = generateRandomBetween(min, max, currentGuess);
+      setCurrentGuess(guess);
+      setGuessRounds((prevGuessRounds) => [guess, ...prevGuessRounds]);
     } else {
-      Alert.alert("Don't lie!", 'You know that is wrong...', [
-        { text: 'Sorry!', style: 'cancel' },
-      ]);
+      showAlert();
     }
   }
   function guessLower() {
     if (userNumber < currentGuess) {
       max = currentGuess;
-      setCurrentGuess(generateRandomBetween(min, max, currentGuess));
+      const guess = generateRandomBetween(min, max, currentGuess);
+      setCurrentGuess(guess);
+      setGuessRounds((prevGuessRounds) => [guess, ...prevGuessRounds]);
     } else {
-      Alert.alert("Don't lie!", 'You know that is wrong...', [
-        { text: 'Sorry!', style: 'cancel' },
-      ]);
+      showAlert();
     }
+  }
+
+  function showAlert() {
+    Alert.alert("Don't lie!", 'You know that is wrong...', [
+      { text: 'Sorry!', style: 'cancel' },
+    ]);
   }
 
   return (
@@ -80,6 +93,18 @@ function GameScreen({ userNumber, onGameOver }) {
           </View>
         </View>
       </Card>
+      <View style={styles.guessRoundContainer}>
+        <FlatList
+          data={guessRounds}
+          renderItem={(itemData) => (
+            <GuessLogItem
+              roundNumber={guessCount - itemData.index}
+              guess={itemData.item}
+            />
+          )}
+          keyExtractor={(item) => item}
+        />
+      </View>
     </View>
   );
 }
@@ -98,5 +123,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+  },
+  guessRoundContainer: {
+    flex: 1,
+    padding: 16,
   },
 });
