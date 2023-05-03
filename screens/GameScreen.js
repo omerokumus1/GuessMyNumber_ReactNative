@@ -10,18 +10,14 @@ import Card from '../components/ui/Card';
 import InstructionText from '../components/ui/InstructionText';
 import GuessLogItem from '../components/game/GuessLogItem';
 
-function generateRandomBetween(min, max, exclude) {
+function generateRandomBetween(min, max) {
   let rndNum = Math.floor(Math.random() * (max - min)) + min;
-  while (rndNum === exclude) {
-    rndNum = Math.floor(Math.random() * (max - min)) + min;
-  }
-
   return rndNum;
 }
 
 let min = 0;
 let max = 100;
-const initialGuess = generateRandomBetween(min, max, -1);
+const initialGuess = generateRandomBetween(min, max);
 function GameScreen({ userNumber, onGameOver }) {
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [guessRounds, setGuessRounds] = useState([initialGuess]);
@@ -47,8 +43,8 @@ function GameScreen({ userNumber, onGameOver }) {
 
   function guessHigher() {
     if (userNumber > currentGuess) {
-      min = currentGuess;
-      const guess = generateRandomBetween(min, max, currentGuess);
+      min = currentGuess + 1;
+      const guess = generateRandomBetween(min, max);
       setCurrentGuess(guess);
       setGuessRounds((prevGuessRounds) => [guess, ...prevGuessRounds]);
     } else {
@@ -57,8 +53,8 @@ function GameScreen({ userNumber, onGameOver }) {
   }
   function guessLower() {
     if (userNumber < currentGuess) {
-      max = currentGuess;
-      const guess = generateRandomBetween(min, max, currentGuess);
+      max = currentGuess - 1;
+      const guess = generateRandomBetween(min, max);
       setCurrentGuess(guess);
       setGuessRounds((prevGuessRounds) => [guess, ...prevGuessRounds]);
     } else {
