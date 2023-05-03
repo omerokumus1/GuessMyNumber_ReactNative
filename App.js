@@ -16,6 +16,7 @@ export default function App() {
   const [pickedNumber, setPickedNumber] = useState();
   const [isGameOver, setIsGameOver] = useState(false);
   const [guessCount, setGuessCount] = useState(0);
+  console.log('App rendered');
 
   const [fontsLoaded] = useFonts({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -30,14 +31,16 @@ export default function App() {
     setPickedNumber(pickedNumber);
   }
 
-  function gameOverHandler() {
+  function gameOverHandler(guessCount) {
+    console.log('gameOverHandler');
     setIsGameOver(true);
+    setGuessCount(guessCount);
   }
 
   function startNewGameHandler() {
     setPickedNumber(null);
     setGuessCount(0);
-    setIsGameOver(false);
+    // setIsGameOver(false); // may be problematic
   }
 
   let screen = null;
@@ -53,11 +56,7 @@ export default function App() {
     screen = <StartGameScreen onPickNumber={pickNumberHandler} />;
   } else {
     screen = (
-      <GameScreen
-        userNumber={pickedNumber}
-        onGameOver={gameOverHandler}
-        onGuess={guessHandler}
-      />
+      <GameScreen userNumber={pickedNumber} onGameOver={gameOverHandler} />
     );
   }
 
